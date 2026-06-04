@@ -1,5 +1,6 @@
 "use client";
 
+import { HomeQuickSearch } from "@/components/home-quick-search";
 import { ListingCard } from "@/components/listing-card";
 import { fetchListings } from "@/lib/listings";
 import { createClient } from "@/lib/supabase/client";
@@ -60,17 +61,7 @@ export default function HomePage() {
 
           <div className="glass-panel mt-10 p-6 lg:mt-0">
             <p className="label-field mb-4">Busca rápida</p>
-            <form action="/anuncios" className="flex flex-col gap-3">
-              <input
-                name="region"
-                placeholder="Sua região (ex.: Grande Recife)"
-                className="input-field"
-              />
-              <input name="q" placeholder="Marca ou modelo" className="input-field" />
-              <button type="submit" className="btn-primary mt-1 w-full">
-                Buscar agora
-              </button>
-            </form>
+            <HomeQuickSearch />
             <div className="mt-6 grid grid-cols-3 gap-3 border-t border-[var(--color-border)] pt-6 text-center">
               {[
                 ["Filtros", "Ano · Preço"],
