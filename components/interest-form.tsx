@@ -47,8 +47,8 @@ export function InterestForm({ listingId }: Props) {
 
   if (status === "ok") {
     return (
-      <div className="rounded-2xl border border-[var(--color-forest)]/30 bg-[var(--color-accent-soft)] p-6 text-center">
-        <p className="font-semibold text-[var(--color-forest)]">Interesse enviado</p>
+      <div className="rounded-2xl border border-[var(--color-success)]/30 bg-[var(--color-success)]/10 p-6 text-center">
+        <p className="font-bold text-[var(--color-success)]">Interesse enviado</p>
         <p className="mt-2 text-sm text-[var(--color-muted)]">
           Entraremos em contato em breve sobre este veículo.
         </p>
@@ -57,44 +57,31 @@ export function InterestForm({ listingId }: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-      <h3 className="font-[family-name:var(--font-display)] text-xl">Tenho interesse</h3>
-      <label className="flex flex-col gap-1 text-sm">
-        <span>Nome (opcional)</span>
-        <input name="name" className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2" />
+    <form onSubmit={onSubmit} className="glass-panel flex flex-col gap-4 p-6">
+      <div>
+        <h3 className="heading-display text-xl">Tenho interesse</h3>
+        <p className="mt-1 text-xs text-[var(--color-dim)]">
+          Deixe seus dados — nossa equipe faz a ponte com o vendedor.
+        </p>
+      </div>
+      <label className="flex flex-col gap-2">
+        <span className="label-field">Nome (opcional)</span>
+        <input name="name" className="input-field" />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
-        <span>E-mail *</span>
-        <input
-          name="email"
-          type="email"
-          required
-          className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
-        />
+      <label className="flex flex-col gap-2">
+        <span className="label-field">E-mail *</span>
+        <input name="email" type="email" required className="input-field" />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
-        <span>Telefone *</span>
-        <input
-          name="phone"
-          type="tel"
-          required
-          className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
-        />
+      <label className="flex flex-col gap-2">
+        <span className="label-field">Telefone *</span>
+        <input name="phone" type="tel" required className="input-field" />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
-        <span>Mensagem (opcional)</span>
-        <textarea
-          name="message"
-          rows={3}
-          className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
-        />
+      <label className="flex flex-col gap-2">
+        <span className="label-field">Mensagem (opcional)</span>
+        <textarea name="message" rows={3} className="input-field resize-none" />
       </label>
-      {error && <p className="text-sm text-red-700">{error}</p>}
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="rounded-full bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
-      >
+      {error && <p className="text-sm text-red-400">{error}</p>}
+      <button type="submit" disabled={status === "loading"} className="btn-primary w-full">
         {status === "loading" ? "Enviando…" : "Enviar interesse"}
       </button>
     </form>

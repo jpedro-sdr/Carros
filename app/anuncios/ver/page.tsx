@@ -17,6 +17,7 @@ function DetalheContent() {
   const id = params.get("id");
   const [listing, setListing] = useState<ListingWithPhotos | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activePhoto, setActivePhoto] = useState(0);
 
   useEffect(() => {
     if (!id) {
@@ -25,20 +26,25 @@ function DetalheContent() {
     }
     const supabase = createClient();
     fetchListingById(supabase, id)
-      .then(setListing)
+      .then((row) => {
+        setListing(row);
+        setActivePhoto(0);
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
   if (!id) {
     return (
-      <p className="p-12 text-center text-[var(--color-muted)]">
-        ID do anúncio não informado.
-      </p>
+      <p className="p-12 text-center text-[var(--color-muted)]">ID do anúncio não informado.</p>
     );
   }
 
   if (loading) {
-    return <p className="p-12 text-center">Carregando…</p>;
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-12">
+        <div className="skeleton-pulse aspect-[16/9] rounded-3xl" />
+      </div>
+    );
   }
 
   if (!listing) {
@@ -53,16 +59,17 @@ function DetalheContent() {
   }
 
   const photos = listing.listing_photos;
-  const cover = photos[0];
+  const cover = photos[activePhoto] ?? photos[0];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <Link href={`${base}/anuncios`} className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]">
-        ← Anúncios
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
+      <Link href={`${base}/anuncios`} className="link-back">
+        <span aria-hidden>←</span> Voltar ao catálogo
       </Link>
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+
+      <div className="mt-8 grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-12">
         <div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-[var(--color-line)]">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)]">
             {cover ? (
               <Image
                 src={publicPhotoUrl(cover.storage_path)}
@@ -73,60 +80,84 @@ function DetalheContent() {
                 sizes="(max-width: 1024px) 100vw, 66vw"
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-[var(--color-muted)]">
+              <div className="flex h-full items-center justify-center text-[var(--color-dim)]">
                 Sem fotos
               </div>
             )}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           </div>
           {photos.length > 1 && (
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {photos.slice(1, 5).map((p) => (
-                <div key={p.id} className="relative aspect-square overflow-hidden rounded-xl">
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+              {photos.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setActivePhoto(i)}
+                  className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-xl border-2 transition ${
+                    i === activePhoto
+                      ? "border-[var(--color-accent)]"
+                      : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                >
                   <Image
                     src={publicPhotoUrl(p.storage_path)}
                     alt=""
                     fill
                     className="object-cover"
-                    sizes="120px"
+                    sizes="112px"
                   />
-                </div>
+                </button>
               ))}
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-6">
+
+        <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
           <div>
-            <h1 className="font-[family-name:var(--font-display)] text-4xl">
+            <p className="eyebrow mb-2">
+              {listing.year} · {listing.city}
+            </p>
+            <h1 className="heading-display text-3xl sm:text-4xl">
               {listing.brand} {listing.model}
             </h1>
-            <p className="mt-2 text-2xl font-semibold text-[var(--color-accent)]">
+            <p className="mt-3 text-3xl font-extrabold tracking-tight text-[var(--color-cta)]">
               {formatPrice(Number(listing.price))}
             </p>
-            <p className="mt-1 text-[var(--color-muted)]">
-              {listing.year} · {listing.city}, {listing.region}
-            </p>
+            <p className="mt-1 text-sm text-[var(--color-muted)]">{listing.region}</p>
           </div>
-          <dl className="grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-[var(--color-muted)]">Quilometragem</dt>
-              <dd className="font-medium">{formatKm(listing.mileage)}</dd>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="spec-chip">
+              <dt>Quilometragem</dt>
+              <dd>{formatKm(listing.mileage)}</dd>
             </div>
             {listing.fuel && (
-              <div>
-                <dt className="text-[var(--color-muted)]">Combustível</dt>
-                <dd className="font-medium">{listing.fuel}</dd>
+              <div className="spec-chip">
+                <dt>Combustível</dt>
+                <dd>{listing.fuel}</dd>
               </div>
             )}
             {listing.transmission && (
-              <div>
-                <dt className="text-[var(--color-muted)]">Câmbio</dt>
-                <dd className="font-medium">{listing.transmission}</dd>
+              <div className="spec-chip">
+                <dt>Câmbio</dt>
+                <dd>{listing.transmission}</dd>
               </div>
             )}
-          </dl>
+            <div className="spec-chip">
+              <dt>Ano</dt>
+              <dd>{listing.year}</dd>
+            </div>
+          </div>
+
           {listing.description && (
-            <p className="text-[var(--color-muted)] leading-relaxed">{listing.description}</p>
+            <div className="glass-panel p-5">
+              <p className="label-field mb-2">Descrição</p>
+              <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                {listing.description}
+              </p>
+            </div>
           )}
+
           <InterestForm listingId={listing.id} />
         </div>
       </div>
@@ -136,7 +167,13 @@ function DetalheContent() {
 
 export default function DetalhePage() {
   return (
-    <Suspense fallback={<div className="p-12">Carregando…</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-[50vh] items-center justify-center text-[var(--color-muted)]">
+          Carregando…
+        </div>
+      }
+    >
       <DetalheContent />
     </Suspense>
   );

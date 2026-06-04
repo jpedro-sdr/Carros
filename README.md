@@ -40,6 +40,26 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
+### Erro `Cannot find module '../chunks/ssr/[turbopack]_runtime.js'`
+
+Isso costuma ser cache `.next` misturando **Turbopack** com build normal. Corrija assim:
+
+```bash
+# Pare o servidor (Ctrl+C), depois:
+Remove-Item -Recurse -Force .next   # PowerShell
+npm run dev                         # usa webpack (estável)
+```
+
+Use `npm run dev:turbo` só se quiser Turbopack — sempre apague `.next` ao alternar.
+
+### Testes E2E (todas as rotas)
+
+```bash
+npm run test:e2e
+```
+
+Cobre `/`, `/anuncios`, `/publicar`, `/admin`, `/anuncios/ver` e navegação entre páginas.
+
 ## GitHub — repositório e deploy
 
 ### 1. Secrets do repositório
@@ -55,9 +75,11 @@ Em **Settings → Secrets and variables → Actions**, adicione:
 
 Em **Settings → Pages → Build and deployment**, escolha **GitHub Actions**.
 
-Após o push em `main`, o site fica em:
+Após o push em `main` e o workflow **Deploy GitHub Pages** concluir, o site público fica em:
 
 **https://jpedro-sdr.github.io/Carros/**
+
+Confira em: repositório → **Actions** → workflow verde → aba **Deployments**.
 
 (ajuste se o nome do repositório for outro — o `basePath` no CI é `/Carros`.)
 

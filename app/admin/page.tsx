@@ -7,15 +7,14 @@ export const metadata = {
 
 export default function AdminPage() {
   return (
-    <div className="px-4 py-12 sm:px-6">
+    <div className="px-4 py-12 sm:px-6 lg:py-16">
       <div className="mx-auto max-w-5xl">
-        <h1 className="font-[family-name:var(--font-display)] text-3xl text-[var(--color-ink)]">
-          Interesses (privado)
-        </h1>
+        <p className="eyebrow mb-2">Interno</p>
+        <h1 className="heading-display text-3xl">Interesses</h1>
         <p className="mt-2 text-sm text-[var(--color-muted)]">
-          Uso interno — não compartilhe este link. Contato manual com vendedores.
+          Uso interno — contato manual com vendedores.
         </p>
-        <div className="mt-8">
+        <div className="mt-10">
           <AdminPanel />
         </div>
       </div>

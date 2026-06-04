@@ -2,15 +2,24 @@
 
 @theme {
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
-  --color-canvas: #f6f3ee;
-  --color-ink: #1a1814;
-  --color-muted: #6b6560;
-  --color-line: #e4ddd3;
-  --color-accent: #c45c26;
-  --color-accent-soft: #f4e6dc;
-  --color-surface: #fffcf8;
-  --color-forest: #2d4a3e;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #f4f6f9;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --color-dim: #94a3b8;
+
+  --color-accent: #0369a1;
+  --color-accent-dim: rgba(3, 105, 161, 0.1);
+  --color-cta: #ea580c;
+  --color-cta-hover: #c2410c;
+  --color-success: #059669;
 }
 
 @layer base {
@@ -19,11 +28,103 @@
   }
 
   body {
-    @apply bg-[var(--color-canvas)] text-[var(--color-ink)] antialiased;
+    @apply min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] antialiased;
+    background-image:
+      radial-gradient(ellipse 70% 50% at 50% -10%, rgba(3, 105, 161, 0.08), transparent),
+      radial-gradient(ellipse 50% 30% at 100% 0%, rgba(234, 88, 12, 0.05), transparent);
   }
 
   ::selection {
-    background: var(--color-accent-soft);
-    color: var(--color-ink);
+    background: var(--color-accent-dim);
+    color: var(--color-text);
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-accent)];
+  }
+
+  .heading-display {
+    font-family: var(--font-display);
+    @apply font-extrabold tracking-tight text-[var(--color-text)];
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm;
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.04),
+      0 12px 32px -12px rgba(15, 23, 42, 0.1);
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-dim)];
+  }
+
+  .input-field:focus {
+    @apply border-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/15;
+  }
+
+  .label-field {
+    @apply text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-[var(--color-cta)] px-6 py-3 text-sm font-bold text-white shadow-md shadow-orange-500/25 transition;
+  }
+
+  .btn-primary:hover {
+    @apply bg-[var(--color-cta-hover)] -translate-y-0.5;
+  }
+
+  .btn-primary:disabled {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition;
+  }
+
+  .btn-secondary:hover {
+    @apply border-[var(--color-accent)]/30 bg-[var(--color-surface-hover)];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-[var(--color-muted)] transition;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-slate-100 text-[var(--color-text)];
+  }
+
+  .spec-chip {
+    @apply rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm;
+  }
+
+  .spec-chip dt {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-[var(--color-dim)];
+  }
+
+  .spec-chip dd {
+    @apply mt-0.5 font-semibold text-[var(--color-text)];
+  }
+
+  .link-back {
+    @apply inline-flex items-center gap-2 text-sm font-medium text-[var(--color-muted)] transition hover:text-[var(--color-accent)];
+  }
+
+  .skeleton-pulse {
+    @apply animate-pulse rounded-lg bg-slate-200;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn-primary:hover,
+  .group:hover * {
+    transform: none !important;
   }
 }

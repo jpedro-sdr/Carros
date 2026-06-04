@@ -36,21 +36,35 @@ function AnunciosContent() {
   }, [params]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="font-[family-name:var(--font-display)] text-4xl text-[var(--color-forest)]">
-        Anúncios
-      </h1>
-      <p className="mt-2 text-[var(--color-muted)]">
-        Filtre por região, modelo, ano e preço.
-      </p>
-      <div className="mt-8">
-        <SearchFilters />
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+      <div className="mb-10 max-w-2xl">
+        <p className="eyebrow mb-2">Catálogo</p>
+        <h1 className="heading-display text-4xl sm:text-5xl">Explorar veículos</h1>
+        <p className="mt-3 text-lg text-[var(--color-muted)]">
+          Filtre por região, modelo, ano e faixa de preço — como nos marketplaces automotivos
+          modernos.
+        </p>
       </div>
+      <SearchFilters />
       <div className="mt-10">
-        {loading && <p className="text-[var(--color-muted)]">Carregando…</p>}
-        {error && <p className="text-red-700">{error}</p>}
+        {!loading && !error && (
+          <p className="mb-6 text-sm text-[var(--color-dim)]">
+            <span className="font-bold text-[var(--color-text)]">{listings.length}</span>{" "}
+            {listings.length === 1 ? "veículo encontrado" : "veículos encontrados"}
+          </p>
+        )}
+        {loading && (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="skeleton-pulse aspect-[16/10] rounded-2xl" />
+            ))}
+          </div>
+        )}
+        {error && <p className="text-red-400">{error}</p>}
         {!loading && !error && listings.length === 0 && (
-          <p className="text-[var(--color-muted)]">Nenhum anúncio encontrado.</p>
+          <div className="glass-panel p-12 text-center text-[var(--color-muted)]">
+            Nenhum anúncio encontrado. Tente outros filtros.
+          </div>
         )}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {listings.map((listing) => (
@@ -64,7 +78,13 @@ function AnunciosContent() {
 
 export default function AnunciosPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center">Carregando filtros…</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-[40vh] items-center justify-center text-[var(--color-muted)]">
+          Carregando…
+        </div>
+      }
+    >
       <AnunciosContent />
     </Suspense>
   );

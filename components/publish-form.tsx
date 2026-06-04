@@ -115,8 +115,8 @@ export function PublishForm() {
 
   return (
     <form onSubmit={onSubmit} className="mx-auto flex max-w-2xl flex-col gap-6">
-      <section className="grid gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6 sm:grid-cols-2">
-        <h2 className="font-[family-name:var(--font-display)] text-xl sm:col-span-2">Veículo</h2>
+      <section className="glass-panel grid gap-4 p-6 sm:grid-cols-2">
+        <h2 className="heading-display text-xl sm:col-span-2">Dados do veículo</h2>
         {[
           ["brand", "Marca *", "text"],
           ["model", "Modelo *", "text"],
@@ -128,61 +128,65 @@ export function PublishForm() {
           ["city", "Cidade *", "text"],
           ["region", "Região *", "text"],
         ].map(([name, label, type]) => (
-          <label key={name} className="flex flex-col gap-1 text-sm">
-            <span>{label}</span>
+          <label key={name} className="flex flex-col gap-2">
+            <span className="label-field">{label}</span>
             <input
               name={name}
               type={type}
               required={label.includes("*")}
-              className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
+              className="input-field"
             />
           </label>
         ))}
-        <label className="flex flex-col gap-1 text-sm sm:col-span-2">
-          <span>Descrição</span>
-          <textarea
-            name="description"
-            rows={4}
-            className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
-          />
+        <label className="flex flex-col gap-2 sm:col-span-2">
+          <span className="label-field">Descrição</span>
+          <textarea name="description" rows={4} className="input-field resize-none" />
         </label>
       </section>
 
-      <section className="grid gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6 sm:grid-cols-2">
-        <h2 className="font-[family-name:var(--font-display)] text-xl sm:col-span-2">Seus dados (contato)</h2>
+      <section className="glass-panel grid gap-4 p-6 sm:grid-cols-2">
+        <h2 className="heading-display text-xl sm:col-span-2">Seu contato</h2>
         {[
           ["seller_name", "Nome *"],
           ["seller_email", "E-mail *"],
           ["seller_phone", "Telefone *"],
         ].map(([name, label]) => (
-          <label key={name} className="flex flex-col gap-1 text-sm">
-            <span>{label}</span>
+          <label key={name} className="flex flex-col gap-2 sm:col-span-2">
+            <span className="label-field">{label}</span>
             <input
               name={name}
               required
               type={name === "seller_email" ? "email" : name === "seller_phone" ? "tel" : "text"}
-              className="rounded-xl border border-[var(--color-line)] bg-[var(--color-canvas)] px-3 py-2"
+              className="input-field"
             />
           </label>
         ))}
       </section>
 
-      <section className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-        <h2 className="font-[family-name:var(--font-display)] text-xl">Fotos</h2>
-        <p className="mt-1 text-sm text-[var(--color-muted)]">
-          Até {MAX_PHOTOS} imagens (JPEG, PNG, WebP — máx. 5 MB cada)
+      <section className="glass-panel p-6">
+        <h2 className="heading-display text-xl">Fotos do veículo</h2>
+        <p className="mt-2 text-sm text-[var(--color-muted)]">
+          Até {MAX_PHOTOS} imagens · JPEG, PNG ou WebP · máx. 5 MB cada
         </p>
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          multiple
-          onChange={onFilesChange}
-          className="mt-4 w-full text-sm"
-        />
+        <label className="mt-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[var(--color-border-strong)] bg-[var(--color-bg-elevated)] px-6 py-10 transition hover:border-[var(--color-accent)]/50">
+          <span className="text-sm font-semibold text-[var(--color-accent)]">
+            Clique para selecionar fotos
+          </span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            multiple
+            onChange={onFilesChange}
+            className="sr-only"
+          />
+        </label>
         {files.length > 0 && (
-          <ul className="mt-3 flex flex-wrap gap-2 text-xs text-[var(--color-muted)]">
+          <ul className="mt-4 flex flex-wrap gap-2">
             {files.map((f) => (
-              <li key={f.name} className="rounded-full bg-[var(--color-canvas)] px-3 py-1">
+              <li
+                key={f.name}
+                className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs text-[var(--color-muted)]"
+              >
                 {f.name}
               </li>
             ))}
@@ -190,13 +194,9 @@ export function PublishForm() {
         )}
       </section>
 
-      {error && <p className="text-sm text-red-700">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="rounded-full bg-[var(--color-forest)] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[var(--color-accent)] disabled:opacity-60"
-      >
+      <button type="submit" disabled={status === "loading"} className="btn-primary w-full py-4">
         {status === "loading" ? "Publicando…" : "Publicar anúncio"}
       </button>
     </form>
