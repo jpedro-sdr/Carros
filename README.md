@@ -79,7 +79,9 @@ Após o push em `main` e o workflow **Deploy GitHub Pages** concluir, o site pú
 
 **https://jpedro-sdr.github.io/Carros/**
 
-Confira em: repositório → **Actions** → workflow verde → aba **Deployments**.
+Confira em: repositório → **Actions** → workflow **Deploy GitHub Pages** verde → aba **Deployments**.
+
+<!-- deploy test: 2026-06-04 -->
 
 (ajuste se o nome do repositório for outro — o `basePath` no CI é `/Carros`.)
 
