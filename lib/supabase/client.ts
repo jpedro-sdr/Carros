@@ -1,0 +1,20 @@
+import { createBrowserClient } from "@supabase/ssr";
+
+export function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    throw new Error(
+      "Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local",
+    );
+  }
+
+  return createBrowserClient(url, key);
+}
+
+export function publicPhotoUrl(storagePath: string): string {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!url) return storagePath;
+  return `${url}/storage/v1/object/public/listing-photos/${storagePath}`;
+}
