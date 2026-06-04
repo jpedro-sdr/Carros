@@ -1,12 +1,10 @@
 import Link from "next/link";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-white/90 backdrop-blur-xl shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <Link href={`${base}/`} className="group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
           <span
             className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-cta)] text-sm font-black text-white shadow-md"
             aria-hidden
@@ -23,10 +21,10 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
-          <Link href={`${base}/anuncios`} className="btn-ghost hidden sm:inline-flex">
+          <Link href="/anuncios" className="btn-ghost hidden sm:inline-flex">
             Explorar
           </Link>
-          <Link href={`${base}/publicar`} className="btn-primary text-xs sm:text-sm">
+          <Link href="/publicar" className="btn-primary text-xs sm:text-sm">
             Vender meu carro
           </Link>
         </nav>

@@ -4,8 +4,6 @@ import type { ListingWithPhotos } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 type Props = { listing: ListingWithPhotos };
 
 export function ListingCard({ listing }: Props) {
@@ -14,7 +12,7 @@ export function ListingCard({ listing }: Props) {
 
   return (
     <Link
-      href={`${base}/anuncios/ver?id=${listing.id}`}
+      href={`/anuncios/ver?id=${listing.id}`}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] transition duration-300 hover:border-[var(--color-accent)]/40 hover:shadow-lg"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-[var(--color-bg-elevated)]">

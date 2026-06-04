@@ -7,8 +7,6 @@ import type { ListingWithPhotos } from "@/lib/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export default function HomePage() {
   const [listings, setListings] = useState<ListingWithPhotos[]>([]);
   const [count, setCount] = useState(0);
@@ -45,10 +43,10 @@ export default function HomePage() {
               nós conectamos as partes.
             </p>
             <div className="flex flex-wrap items-center gap-4">
-              <Link href={`${base}/anuncios`} className="btn-primary">
+              <Link href="/anuncios" className="btn-primary">
                 Explorar estoque
               </Link>
-              <Link href={`${base}/publicar`} className="btn-secondary">
+              <Link href="/publicar" className="btn-secondary">
                 Anunciar meu carro
               </Link>
             </div>
@@ -62,7 +60,7 @@ export default function HomePage() {
 
           <div className="glass-panel mt-10 p-6 lg:mt-0">
             <p className="label-field mb-4">Busca rápida</p>
-            <form action={`${base}/anuncios`} className="flex flex-col gap-3">
+            <form action="/anuncios" className="flex flex-col gap-3">
               <input
                 name="region"
                 placeholder="Sua região (ex.: Grande Recife)"
@@ -96,7 +94,7 @@ export default function HomePage() {
             <h2 className="heading-display text-3xl sm:text-4xl">Anúncios recentes</h2>
           </div>
           <Link
-            href={`${base}/anuncios`}
+            href="/anuncios"
             className="text-sm font-semibold text-[var(--color-accent)] transition hover:text-[var(--color-cta)]"
           >
             Ver todos →
@@ -106,7 +104,7 @@ export default function HomePage() {
           <div className="glass-panel p-12 text-center">
             <p className="text-[var(--color-muted)]">
               Nenhum anúncio ainda.{" "}
-              <Link href={`${base}/publicar`} className="font-semibold text-[var(--color-accent)]">
+              <Link href="/publicar" className="font-semibold text-[var(--color-accent)]">
                 Seja o primeiro
               </Link>
             </p>

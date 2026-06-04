@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-[var(--color-border)] bg-white">
@@ -13,10 +11,10 @@ export function SiteFooter() {
           </p>
         </div>
         <nav className="flex flex-wrap gap-6 text-sm font-medium text-[var(--color-muted)]">
-          <Link href={`${base}/anuncios`} className="transition hover:text-[var(--color-accent)]">
+          <Link href="/anuncios" className="transition hover:text-[var(--color-accent)]">
             Anúncios
           </Link>
-          <Link href={`${base}/publicar`} className="transition hover:text-[var(--color-accent)]">
+          <Link href="/publicar" className="transition hover:text-[var(--color-accent)]">
             Vender
           </Link>
         </nav>

@@ -3,8 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useTransition } from "react";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export function SearchFilters() {
   const router = useRouter();
   const params = useSearchParams();
@@ -18,7 +16,7 @@ export function SearchFilters() {
       if (typeof value === "string" && value.trim()) next.set(key, value.trim());
     }
     startTransition(() => {
-      router.push(`${base}/anuncios?${next.toString()}`);
+      router.push(`/anuncios?${next.toString()}`);
     });
   }
 

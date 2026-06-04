@@ -10,8 +10,6 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 function DetalheContent() {
   const params = useSearchParams();
   const id = params.get("id");
@@ -51,7 +49,7 @@ function DetalheContent() {
     return (
       <p className="p-12 text-center">
         Anúncio não encontrado.{" "}
-        <Link href={`${base}/anuncios`} className="text-[var(--color-accent)]">
+        <Link href="/anuncios" className="text-[var(--color-accent)]">
           Voltar
         </Link>
       </p>
@@ -63,7 +61,7 @@ function DetalheContent() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
-      <Link href={`${base}/anuncios`} className="link-back">
+      <Link href="/anuncios" className="link-back">
         <span aria-hidden>←</span> Voltar ao catálogo
       </Link>
 

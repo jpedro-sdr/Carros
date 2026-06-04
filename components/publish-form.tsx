@@ -6,8 +6,6 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 const MAX_PHOTOS = 10;
 const MAX_SIZE = 5 * 1024 * 1024;
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export function PublishForm() {
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
@@ -110,7 +108,7 @@ export function PublishForm() {
       }
     }
 
-    router.push(`${base}/anuncios/ver?id=${listingId}`);
+    router.push(`/anuncios/ver?id=${listingId}`);
   }
 
   return (
